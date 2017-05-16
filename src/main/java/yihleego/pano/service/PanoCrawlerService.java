@@ -1,5 +1,6 @@
 package yihleego.pano.service;
 
+import org.jsoup.nodes.Document;
 import yihleego.pano.pojo.DTO.AuthorDTO;
 
 import yihleego.pano.pojo.DTO.PanoDTO;
@@ -18,7 +19,7 @@ public interface PanoCrawlerService {
 
     PanoXmlDTO parsePanoXml(String strPanoId) throws Exception;
 
-    //SpiderPanoSelf parseProductXml(String strProductId,Author720 author720) throws Exception;
+    boolean downloadPano(PanoXmlDTO panoXmlDTO,AuthorDTO authorDTO) throws Exception;
 
-    //void testDownload(SpiderPanoSelf spiderPanoSelf)throws Exception;
+    Document getDocument(String strUrl) throws Exception;
 }
