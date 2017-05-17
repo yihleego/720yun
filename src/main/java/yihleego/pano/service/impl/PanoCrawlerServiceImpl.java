@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -169,9 +170,9 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
             String strAuthorId = authorDTO.getUid();
             String strPanoId = panoXmlDTO.getPanoId();
 
-            String sreRootPath = "/home/wbt/down/mypano/" + strAuthorId + File.separator + strPanoId + File.separator;
+            String strRootPath = "/home/wbt/down/mypano/" + strAuthorId + File.separator + strPanoId + File.separator;
 
-            File filePano = new File(sreRootPath);
+            File filePano = new File(strRootPath);
             if (!filePano.exists())
                 filePano.mkdirs();
             if (!filePano.exists())
@@ -194,6 +195,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                 String strSceneId = sceneDTO.getSceneId();
                 String strPreviewUrl = sceneDTO.getPreviewUrl();
                 ImageDTO desktopImage = sceneDTO.getDesktopImage();
+                ImageDTO mobileImage = sceneDTO.getMobileImage();
                 if (desktopImage == null)
                     continue;
 
@@ -259,7 +261,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                                 Matcher matcher = pattern.matcher(cubeUrl);
                                 String level = matcher.find() ? matcher.group(1) : "l0";
 
-                                StringBuffer strBufFileImagePath = new StringBuffer(sreRootPath);
+                                StringBuffer strBufFileImagePath = new StringBuffer(strRootPath);
                                 strBufFileImagePath.append(strSceneId);
                                 strBufFileImagePath.append(File.separator);
                                 strBufFileImagePath.append(S[s]);
@@ -292,16 +294,11 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                                     logger.error(strImageUrl + " =/=> " + strBufFileImage.toString());
                             }
                         }
-
-
-
-
-
                     }
                 }
                 //get preview.jpg
 
-                StringBuffer strBufFileImagePath = new StringBuffer(sreRootPath);
+                StringBuffer strBufFileImagePath = new StringBuffer(strRootPath);
                 strBufFileImagePath.append(strSceneId);
                 strBufFileImagePath.append(File.separator);
 
@@ -319,7 +316,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                     logger.error(strPreviewUrl + " =/=> " + strBufFileImage.toString());
 
                 //get mobile.jpg
-                ImageDTO mobileImage=sceneDTO.getMobileImage();
+
                 String strMobileUrl= mobileImage.getCubeUrl()[0];
 
                 for (int s = 0; s < S.length; s++) {
@@ -332,12 +329,47 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                 }
 
 
-                //build xml
-
-
-
-
             }
+            //build xml
+
+            Document document = Jsoup.parse(new File("/home/wbt/work/pano/src/main/webapp/xml/templet.xml"), "utf-8");
+
+            Element body = document.select("body").first();
+            Element krpano = body.select("krpano").first();
+
+            StringBuffer strbufScene=new StringBuffer();
+
+            for (SceneDTO sceneDTO : arySceneDTO){
+
+                String strSceneId = sceneDTO.getSceneId();
+                String strPreviewUrl = sceneDTO.getPreviewUrl();
+
+
+                ImageDTO desktopImage = sceneDTO.getDesktopImage();
+                ImageDTO mobileImage=sceneDTO.getMobileImage();
+                if (desktopImage == null)
+                    continue;
+
+                for (int i = 0; i < desktopImage.getCubeUrl().length; i++) {
+
+
+                }
+            }
+            krpano.prepend(strbufScene.toString());
+
+
+            FileWriter fw = null;
+
+            fw = new FileWriter("/home/wbt/ppp.xml");
+
+
+            fw.write(body.html());
+            fw.flush();
+            fw.close();
+
+
+
+
         } catch (Exception e) {
             logger.error("{}", e);
             flag = false;

@@ -1,10 +1,5 @@
 <krpano version="1.19">
 
-
-    <action name="startup" autorun="onstart">
-        if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); ); loadscene(get(startscene), null, MERGE); if(startactions !== null, startactions() );
-    </action>
-
     <scene name="scene_271914" pano_id="271914">
         <preview url="271914/preview.jpg" />
         <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
@@ -43,22 +38,10 @@
         </image>
     </scene>
 
-    <config>
-        <info pid="81022jp8jnw" id="244295" title="地球|Earth" desc="" ccagreement="【署名 - 非商业使用 - 禁止演绎】"/>
-        <auth auth_name="作者：POCKN" uid="3702axigayr" status="1" link="https://720yun.com/u/3702axigayr"/>
-        <feature show_comment="0" enable_comment="1" enable_vr="1" enable_like="1" show_pv="1" enable_password="0" enable_selected="1" enable_location="0" enable_intro="1" show_auth="1" enable_gyro="1" enable_littleplanet="1" enable_autorotate="1"/>
-        <qr enabled="1" url="https://ssl-api.720yun.com/qr/out/Yk5xd1ZKYTk4cFVhT0JtdVhBUXUwWmVsRklLanc5QjE3MGc5TG5MZ2c4NlBEVzRi/3702axigayr"/>
-        <start_image enabled="1"/>
-        <logo enabled="1" url="https://ssl-player.720static.com/@/skin/images/watermark.png" link="#" is_720="1" align="1" app_link=""/>
-        <thumbs title="场景选择" thumb="https://ssl-player.720static.com/@/krp/category/v2/system/100/piclist.png" show_thumb="1">
-            <category name="category1" title="场景选择" thumb="https://ssl-player.720static.com/@/category/v2/system/100/piclist.png">
-                <pano name="pano271914" title="空间站 2022" thumb="https://ssl-thumb.720static.com/@/resource/prod/69ai37767n4/3702axigayr/271914/1461064787/imgs/thumb.jpg" pano_id="271914"/>
-                <pano name="pano327504" title="地球" thumb="https://ssl-thumb.720static.com/@/resource/prod/69ai37767n4/3702axigayr/327504/imgs/thumb.jpg" pano_id="327504"/>
-            </category>
-        </thumbs>
-        <links/>
 
-    </config>
+    <action name="startup" autorun="onstart">
+        if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); ); loadscene(get(startscene), null, MERGE); if(startactions !== null, startactions() );
+    </action>
 
     <view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" fovmin="50" fovmax="120" limitview="auto" />
 
@@ -100,14 +83,14 @@
         set(layer[skin_splitter_bottom].alpha, 0);
         lookat(calc(lp_hlookat - 180), 90, 150, 1, 0, 0);
         set(events[lp_events].onloadcomplete,
-            delayedcall(2.5,
-                if (lp_scene === xml.scene,
-                    set(control.usercontrol, off); copy(view.limitview, lp_limitview); set(view.vlookatmin, null); set(view.vlookatmax, null); tween(view.hlookat | view.vlookat | view.fov | view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov + '|' + 0.0),
-                        3.0, easeOutQuad,
-                        set(control.usercontrol, all); tween(view.fovmax, get(lp_fovmax));
-                    ); set_hotspot_visible(true); set(layer[skin_layer].visible, true); tween(layer[skin_layer].alpha, 1, 1); set(layer[skin_control_bar].visible, true); tween(layer[skin_control_bar].alpha, 1, 1); set(layer[skin_splitter_bottom].visible, true); tween(layer[skin_splitter_bottom].alpha, 1, 1);
-                );
-            );
+        delayedcall(2.5,
+        if (lp_scene === xml.scene,
+        set(control.usercontrol, off); copy(view.limitview, lp_limitview); set(view.vlookatmin, null); set(view.vlookatmax, null); tween(view.hlookat | view.vlookat | view.fov | view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov + '|' + 0.0),
+        3.0, easeOutQuad,
+        set(control.usercontrol, all); tween(view.fovmax, get(lp_fovmax));
+        ); set_hotspot_visible(true); set(layer[skin_layer].visible, true); tween(layer[skin_layer].alpha, 1, 1); set(layer[skin_control_bar].visible, true); tween(layer[skin_control_bar].alpha, 1, 1); set(layer[skin_splitter_bottom].visible, true); tween(layer[skin_splitter_bottom].alpha, 1, 1);
+        );
+        );
         );
 
     </action>
@@ -135,19 +118,19 @@
         set(layer[skin_splitter_bottom].alpha, 0);
         lookat(calc(lp_hlookat - 180), 90, 150, 1, 0, 0);
         set(events[lp_events].onloadcomplete, delayedcall(0.5,
-            if (lp_scene === xml.scene, set(control.usercontrol, off); copy(view.limitview, lp_limitview); set(view.vlookatmin, null); set(view.vlookatmax, null); tween(view.hlookat | view.vlookat | view.fov | view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov + '|' + 0.0), 3.0, easeOutQuad, set(control.usercontrol, all); tween(view.fovmax, get(lp_fovmax));); set_hotspot_visible(true); set(layer[skin_layer].visible, true); tween(layer[skin_layer].alpha, 1, 1); set(layer[skin_control_bar].visible, true); tween(layer[skin_control_bar].alpha, 1, 1); set(layer[skin_splitter_bottom].visible, true); tween(layer[skin_splitter_bottom].alpha, 1, 1););););
+        if (lp_scene === xml.scene, set(control.usercontrol, off); copy(view.limitview, lp_limitview); set(view.vlookatmin, null); set(view.vlookatmax, null); tween(view.hlookat | view.vlookat | view.fov | view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov + '|' + 0.0), 3.0, easeOutQuad, set(control.usercontrol, all); tween(view.fovmax, get(lp_fovmax));); set_hotspot_visible(true); set(layer[skin_layer].visible, true); tween(layer[skin_layer].alpha, 1, 1); set(layer[skin_control_bar].visible, true); tween(layer[skin_control_bar].alpha, 1, 1); set(layer[skin_splitter_bottom].visible, true); tween(layer[skin_splitter_bottom].alpha, 1, 1););););
 
     </action>
     <action name="set_hotspot_visible">
         for (set(i, 0), i LT hotspot.count, inc(i),
         if ( % 1 == false,
-            if (hotspot[get(i)].visible == true, set(hotspot[get(i)].mark, true); set(hotspot[get(i)].visible, % 1););,
-            if (hotspot[get(i)].mark == true OR hotspot[get(i)].mark2 == true, set(hotspot[get(i)].visible, % 1););););
+        if (hotspot[get(i)].visible == true, set(hotspot[get(i)].mark, true); set(hotspot[get(i)].visible, % 1););,
+        if (hotspot[get(i)].mark == true OR hotspot[get(i)].mark2 == true, set(hotspot[get(i)].visible, % 1););););
 
     </action>
 
 
-<!--    <contextmenu fullscreen="true" versioninfo="true">
+    <contextmenu fullscreen="true" versioninfo="true">
         <item name="kr" caption="YihLeego" onclick="openurl('http://yihleego.com')" />
         <item name="fs" caption="FULLSCREEN" />
         <item name="nv" caption="正常视角" onclick="cm_normal_view();" showif="view.vlookatrange == 180" separator="true" />
@@ -159,6 +142,54 @@
         <item name="logo" caption="[img src='https://avatars0.githubusercontent.com/u/21337386' style='width:32px; height:32px; margin:0 auto;'/]" separator="true" onclick="openurl('http://github.com')" devices="html5" />
     </contextmenu>-->
 
+
+    <action name="cm_normal_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    0.0, distance(1.0,0.5));
+    </action>
+
+    <action name="cm_fisheye_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0,  distance(1.0,0.5));
+        tween(view.pannini,       0.0,  distance(1.0,0.5));
+        tween(view.distortion,    0.35, distance(1.0,0.5));
+    </action>
+
+    <action name="cm_stereographic_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    1.0, distance(1.0,0.8));
+    </action>
+
+    <action name="cm_architectural_view">
+        skin_view_look_straight();
+        tween(view.architectural, 1.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    0.0, distance(1.0,0.5));
+    </action>
+
+    <action name="cm_pannini_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       1.0, distance(1.0,0.8));
+        if(view.distortion LT 0.1,
+        tween(view.distortion, 1.0, distance(1.0,0.8));
+        );
+    </action>
+
+    <action name="cm_littleplanet_view">
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    1.0, distance(1.0,0.8));
+        tween(view.fov,           150, distance(150,0.8));
+        tween(view.vlookat,        90, distance(100,0.8));
+        add(new_hlookat, view.hlookat, 123.0);
+        tween(view.hlookat, get(new_hlookat), distance(100,0.8));
+        skin_deeplinking_update_url(1.0);
+    </action>
 
 
 

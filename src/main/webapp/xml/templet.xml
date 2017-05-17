@@ -1,11 +1,8 @@
 <krpano version="1.19">
 
 
-    <action name="startup" autorun="onstart">
-        if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); ); loadscene(get(startscene), null, MERGE); if(startactions !== null, startactions() );
-    </action>
 
-    <scene name="scene_271914" pano_id="271914">
+    <!--<scene name="scene_271914" pano_id="271914">
         <preview url="./pano/sb/81022jp8jnw/271914/preview.jpg" />
         <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
             <level tiledimagewidth="2546" tiledimageheight="2546">
@@ -41,9 +38,12 @@
         <image if="webvr.isenabled OR !device.desktop">
             <cube url="./pano/sb/81022jp8jnw/327504/mobile_%s.jpg"/>
         </image>
-    </scene>
+    </scene>-->
 
 
+    <action name="startup" autorun="onstart">
+        if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); ); loadscene(get(startscene), null, MERGE); if(startactions !== null, startactions() );
+    </action>
 
     <view hlookat="0" vlookat="0" fovtype="MFOV" fov="120" fovmin="50" fovmax="120" limitview="auto" />
 
@@ -132,7 +132,7 @@
     </action>
 
 
-<!--    <contextmenu fullscreen="true" versioninfo="true">
+     <contextmenu fullscreen="true" versioninfo="true">
         <item name="kr" caption="YihLeego" onclick="openurl('http://yihleego.com')" />
         <item name="fs" caption="FULLSCREEN" />
         <item name="nv" caption="正常视角" onclick="cm_normal_view();" showif="view.vlookatrange == 180" separator="true" />
@@ -144,6 +144,54 @@
         <item name="logo" caption="[img src='https://avatars0.githubusercontent.com/u/21337386' style='width:32px; height:32px; margin:0 auto;'/]" separator="true" onclick="openurl('http://github.com')" devices="html5" />
     </contextmenu>-->
 
+
+    <action name="cm_normal_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    0.0, distance(1.0,0.5));
+    </action>
+
+    <action name="cm_fisheye_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0,  distance(1.0,0.5));
+        tween(view.pannini,       0.0,  distance(1.0,0.5));
+        tween(view.distortion,    0.35, distance(1.0,0.5));
+    </action>
+
+    <action name="cm_stereographic_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    1.0, distance(1.0,0.8));
+    </action>
+
+    <action name="cm_architectural_view">
+        skin_view_look_straight();
+        tween(view.architectural, 1.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    0.0, distance(1.0,0.5));
+    </action>
+
+    <action name="cm_pannini_view">
+        skin_view_look_straight();
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       1.0, distance(1.0,0.8));
+        if(view.distortion LT 0.1,
+        tween(view.distortion, 1.0, distance(1.0,0.8));
+        );
+    </action>
+
+    <action name="cm_littleplanet_view">
+        tween(view.architectural, 0.0, distance(1.0,0.5));
+        tween(view.pannini,       0.0, distance(1.0,0.5));
+        tween(view.distortion,    1.0, distance(1.0,0.8));
+        tween(view.fov,           150, distance(150,0.8));
+        tween(view.vlookat,        90, distance(100,0.8));
+        add(new_hlookat, view.hlookat, 123.0);
+        tween(view.hlookat, get(new_hlookat), distance(100,0.8));
+        skin_deeplinking_update_url(1.0);
+    </action>
 
 
 
