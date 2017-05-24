@@ -28,16 +28,93 @@ import java.util.regex.Pattern;
 /**
  * Created by YihLeego on 17-5-15.
  */
+
+
 @Service("panoCrawlerService")
 public class PanoCrawlerServiceImpl implements PanoCrawlerService {
     private transient static Logger logger = LoggerFactory.getLogger(PanoCrawlerServiceImpl.class);
+
+    public boolean save720yunPano(int startPage, int endPage) throws Exception {
+        boolean flag = true;
+        List<String> authorList = new ArrayList();
+        List<String> panoIdList = new ArrayList();
+
+        for (int i = startPage; i <= endPage; i++) {
+            authorList.addAll(getAuthorIdList(i));
+        }
+
+        for (int i = 0, len = authorList.size(); i < len; i++) {
+            panoIdList.addAll(getPanoIdList(authorList.get(i)));
+        }
+
+        System.out.println(panoIdList.size());
+
+
+        return flag;
+    }
+
+
+    public List<String> getAuthorIdList(int iPage) throws Exception {
+        List<String> authorIdList = new ArrayList();
+
+
+        String strAuthorListUrl = "https://ssl-api.720yun.com/api/author/1/1/99999999/" + iPage;
+        Document document = getDocument(strAuthorListUrl);
+        String strJSONAuthor = document.body().text().toString();
+
+
+        Pattern pattern = Pattern.compile("\"members\":\\[(.*?)\\]");
+        Matcher matcher = pattern.matcher(strJSONAuthor);
+
+        String[] authorArray = null;
+        if (matcher.find())
+            authorArray = matcher.group(1).split("(?<=\\}),(?=\\{)");
+
+        pattern = Pattern.compile("\"uid\":\"(.*?)\"");
+
+        if (authorArray != null) {
+            for (String authorInfo : authorArray) {
+                matcher = pattern.matcher(authorInfo);
+                if (matcher.find())
+                    authorIdList.add(matcher.group(1));
+            }
+        }
+
+
+        return authorIdList;
+    }
+
+    public List<String> getPanoIdList(String strAuthorId) throws Exception {
+        List<String> panoIdList = new ArrayList();
+
+        String strAuthorInfoApiUrl = "https://ssl-api.720yun.com/api/member/" + strAuthorId;
+        Document document = getDocument(strAuthorInfoApiUrl);
+        String strJSONProduct = document.body().text().toString();
+        Pattern pattern = Pattern.compile("\"products\":\\[(.*?)\\],\"wx");
+        Matcher matcher = pattern.matcher(strJSONProduct);
+        String[] productArray = null;
+        if (matcher.find())
+            productArray = matcher.group(1).split("(?<=\\}),(?=\\{)");
+
+        pattern = Pattern.compile("\"pid\":\"(.*?)\"");
+        if (productArray != null) {
+            for (String productInfo : productArray) {
+                matcher = pattern.matcher(productInfo);
+                if (matcher.find()) {
+                    panoIdList.add(matcher.group(1));
+                }
+            }
+        }
+
+        return panoIdList;
+    }
 
 
     public List<AuthorDTO> getAuthorList(int iPage) throws Exception {
         List<AuthorDTO> authorDTOList = new ArrayList();
 
         try {
-            String strAuthorListUrl = "https://ssl-api.720yun.com/api/author/1/1/99999999/" + iPage;
+            String strAuthorListUrl = "https://ssl-api.720yun.com/api/author/1/0/99999999/" + iPage;
             Document document = getDocument(strAuthorListUrl);
             String strJSONAuthor = document.body().text().toString();
 
@@ -55,6 +132,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                     authorDTOList.add(AuthorDTO);
                 } catch (Exception e) {
                     logger.error("failed to object" + authorInfo + "{}:", e);
+
                 }
             }
         } catch (Exception e) {
@@ -317,7 +395,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
 
                 //get mobile.jpg
 
-                String strMobileUrl= mobileImage.getCubeUrl()[0];
+                String strMobileUrl = mobileImage.getCubeUrl()[0];
 
                 for (int s = 0; s < S.length; s++) {
                     StringBuffer strBufFileMobileImage = new StringBuffer(strBufFileImagePath.toString());
@@ -325,7 +403,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                     strBufFileMobileImage.append(S[s]);
                     strBufFileMobileImage.append(".jpg");
 
-                    downImage(strMobileUrl.replace("%s",S[s]),strBufFileMobileImage.toString());
+                    downImage(strMobileUrl.replace("%s", S[s]), strBufFileMobileImage.toString());
                 }
 
 
@@ -337,16 +415,16 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
             Element body = document.select("body").first();
             Element krpano = body.select("krpano").first();
 
-            StringBuffer strbufScene=new StringBuffer();
+            StringBuffer strbufScene = new StringBuffer();
 
-            for (SceneDTO sceneDTO : arySceneDTO){
+            for (SceneDTO sceneDTO : arySceneDTO) {
 
                 String strSceneId = sceneDTO.getSceneId();
                 String strPreviewUrl = sceneDTO.getPreviewUrl();
 
 
                 ImageDTO desktopImage = sceneDTO.getDesktopImage();
-                ImageDTO mobileImage=sceneDTO.getMobileImage();
+                ImageDTO mobileImage = sceneDTO.getMobileImage();
                 if (desktopImage == null)
                     continue;
 
@@ -366,8 +444,6 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
             fw.write(body.html());
             fw.flush();
             fw.close();
-
-
 
 
         } catch (Exception e) {

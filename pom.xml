@@ -7,7 +7,9 @@
     <version>1.0-SNAPSHOT</version>
     <name>pano Maven Webapp</name>
     <url>http://maven.apache.org</url>
-
+    <build>
+        <finalName>pano</finalName>
+    </build>
     <properties>
         <spring.version>4.3.8.RELEASE</spring.version>
         <!-- mybatis版本号 -->
@@ -116,12 +118,6 @@
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-        <!-- 格式化对象，方便输出日志 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.1.41</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -133,30 +129,34 @@
             <version>${slf4j.version}</version>
         </dependency>
         <!-- log end -->
+
+
         <!-- 映入JSON -->
+        <!-- 格式化对象，方便输出日志 -->
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.41</version>
         </dependency>
-        <!-- 上传组件包 -->
+
         <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.8.5</version>
         </dependency>
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.9</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.8.5</version>
         </dependency>
 
 
+        <!-- 爬虫包 -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -173,21 +173,6 @@
             <version>4.5.3</version>
         </dependency>
 
-
-
-        <dependency>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator</artifactId>
-            <version>1.3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator-maven-plugin</artifactId>
-            <version>1.3.5</version>
-        </dependency>
-
     </dependencies>
-    <build>
-        <finalName>pano</finalName>
-    </build>
+
 </project>
