@@ -3,6 +3,8 @@ package com.yihleego.pano.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yihleego.crawler.util.CrawlerUtils;
+import com.yihleego.pano.dao.Pano720DAO;
+import com.yihleego.pano.pojo.DO.Pano720DO;
 import com.yihleego.pano.pojo.DTO.*;
 import com.yihleego.pano.service.PanoCrawlerService;
 import org.apache.http.HttpEntity;
@@ -16,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -34,6 +37,9 @@ import java.util.regex.Pattern;
 public class PanoCrawlerServiceImpl implements PanoCrawlerService {
     private transient static Logger logger = LoggerFactory.getLogger(PanoCrawlerServiceImpl.class);
 
+    @Autowired
+    Pano720DAO pano720DAO;
+
     public boolean save720yunPano(int startPage, int endPage) throws Exception {
         boolean flag = true;
         List<String> authorList = new ArrayList();
@@ -49,6 +55,19 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
 
         System.out.println(panoIdList.size());
 
+        for(int i=0,len=panoIdList.size();i<len;i++){
+            Pano720DO pano720 = new Pano720DO();
+            Long getTime = new Date().getTime();
+            String panoId = "";
+            String panoUrl = "http://720yun.com/t/" + panoId;
+            String panoXmlUrl = "http://xml.qncdn.720static.com/@/" + panoId + "/" + panoId + ".xml?" + getTime;
+
+            pano720.setPanoId(panoId);
+            pano720.setPanoUrl(panoUrl);
+            pano720.setPanoXmlUrl(panoXmlUrl);
+            pano720.setCrawlData(getTime);
+            pano720DAO.insert(pano720);
+        }
 
         return flag;
     }
