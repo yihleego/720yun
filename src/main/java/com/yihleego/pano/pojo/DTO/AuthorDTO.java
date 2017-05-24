@@ -1,4 +1,4 @@
-package yihleego.pano.pojo.DTO;
+package com.yihleego.pano.pojo.DTO;
 
 import java.io.Serializable;
 

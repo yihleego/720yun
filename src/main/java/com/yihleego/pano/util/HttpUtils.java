@@ -1,4 +1,4 @@
-package yihleego.pano.util;
+package com.yihleego.pano.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

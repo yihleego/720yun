@@ -1,4 +1,4 @@
-package yihleego.pano.pojo.DTO;
+package com.yihleego.pano.pojo.DTO;
 
 /**
  * Created by YihLeego on 17-5-11.

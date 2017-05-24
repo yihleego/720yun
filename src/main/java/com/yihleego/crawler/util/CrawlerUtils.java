@@ -1,4 +1,4 @@
-package yihleego.crawler.util;
+package com.yihleego.crawler.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

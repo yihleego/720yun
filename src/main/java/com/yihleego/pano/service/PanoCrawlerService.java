@@ -1,10 +1,9 @@
-package yihleego.pano.service;
+package com.yihleego.pano.service;
 
+import com.yihleego.pano.pojo.DTO.AuthorDTO;
+import com.yihleego.pano.pojo.DTO.PanoDTO;
+import com.yihleego.pano.pojo.DTO.PanoXmlDTO;
 import org.jsoup.nodes.Document;
-import yihleego.pano.pojo.DTO.AuthorDTO;
-
-import yihleego.pano.pojo.DTO.PanoDTO;
-import yihleego.pano.pojo.DTO.PanoXmlDTO;
 
 
 import java.util.List;
