@@ -4,16 +4,16 @@ package com.yihleego.pano.service.impl;
 import com.yihleego.crawler.util.CrawlerUtils;
 import com.yihleego.pano.dao.Pano720DAO;
 import com.yihleego.pano.pojo.DO.Pano720DO;
-import com.yihleego.pano.pojo.DTO.AuthorDTO;
-import com.yihleego.pano.pojo.DTO.ImageDTO;
-import com.yihleego.pano.pojo.DTO.PanoXmlDTO;
-import com.yihleego.pano.pojo.DTO.SceneDTO;
+import com.yihleego.pano.pojo.DTO.*;
 import com.yihleego.pano.service.PanoCrawlerService;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,9 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +40,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
     @Autowired
     Pano720DAO pano720DAO;
 
-    public boolean save720yunPano(int startPage, int endPage) throws Exception {
+    public boolean save720Pano(int startPage, int endPage) throws Exception {
         boolean flag = true;
         List<String> authorList = new ArrayList();
         List<String> panoIdList = new ArrayList();
@@ -80,6 +78,85 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
     }
 
 
+    public Pano720XmlDTO parse720PanoXml(Pano720DO pano720) throws Exception {
+
+        List<String> sceneIdList = new ArrayList();// scene id list like 185856
+        List<String> panoIdList = new ArrayList();// same as sceneIdList
+        Map<String, String> sceneNameMap = new HashMap();// sceneId -> sceneName like 185856 -> scene_185856
+        Map<String, String> panoNameMap = new HashMap();// panoName -> panoId like pano185856 -> 185856
+        Map<String, String> sceneTitleMap = new HashMap();
+        Map<String, String> thumbUrlMap = new HashMap();// sceneId -> thumbUrl like 185856 -> /imgs/preview.jpg
+        Map<String, String> previewUrlMap = new HashMap();
+        Map<String, Pano720XmlDesktopImageDTO> desktopImageMap = new HashMap();
+        Map<String, Pano720XmlMobileImageDTO> mobileImageMap = new HashMap();
+
+
+        Pano720XmlDTO pano720Xml = new Pano720XmlDTO(sceneIdList, sceneNameMap, panoIdList, panoNameMap, sceneTitleMap, thumbUrlMap, previewUrlMap, desktopImageMap, mobileImageMap);
+
+        String panoXmlUrl = pano720.getPanoXmlUrl();
+        Document document = getDocument(panoXmlUrl);
+        Element krpanoElement = document.select("krpano").first();
+        Elements sceneElements = krpanoElement.select("scene");
+        Elements panoElements = krpanoElement.select("config").select("category").select("pano");
+
+        for (Element sceneElement : sceneElements) {
+            String panoId = sceneElement.attr("pano_id");
+            sceneIdList.add(panoId);
+            panoIdList.add(panoId);
+            sceneNameMap.put(panoId, "scene_" + panoId);
+            panoNameMap.put("pano" + panoId, panoId);
+            previewUrlMap.put(panoId, sceneElement.select("preview").attr("url"));
+
+            Element desktopImageElement = sceneElement.select("image").get(0);
+            Element mobileImageElement = sceneElement.select("image").get(1);
+
+            if (desktopImageElement != null) {
+                Pano720XmlDesktopImageDTO desktopImage = new Pano720XmlDesktopImageDTO();
+                desktopImageMap.put(panoId, desktopImage);
+
+                desktopImage.setLevelWidthList(new ArrayList());
+                desktopImage.setLevelHightList(new ArrayList());
+                desktopImage.setLevelCubeUrlList(new ArrayList());
+
+                desktopImage.setType(desktopImageElement.attr("type"));
+                desktopImage.setMultires(desktopImageElement.attr("multires"));
+                desktopImage.setTileSize(desktopImageElement.attr("tilesize"));
+                desktopImage.setImageIf(desktopImageElement.attr("if"));
+                Elements levelElements = desktopImageElement.select("level");
+                for (Element levelElement : levelElements) {
+                    desktopImage.getLevelWidthList().add(levelElement.attr("tiledimagewidth"));
+                    desktopImage.getLevelHightList().add(levelElement.attr("tiledimageheight"));
+                    desktopImage.getLevelCubeUrlList().add(levelElement.select("cube").first().attr("url"));
+                }
+            }
+
+            if (mobileImageElement != null) {
+                Pano720XmlMobileImageDTO mobileImage = new Pano720XmlMobileImageDTO();
+                mobileImageMap.put(panoId, mobileImage);
+                mobileImage.setImageIf(mobileImageElement.attr("if"));
+                mobileImage.setLevelCubeUrl(mobileImageElement.select("cube").first().attr("url"));
+            }
+        }
+
+
+        for (Element panoElement : panoElements) {
+            String panoName = panoElement.attr("name");
+            String panoId = panoNameMap.get(panoName);
+            String panoTitle = panoElement.attr("title");
+            String thumbUrl = panoElement.attr("thumb");
+            sceneTitleMap.put(panoId, panoTitle);
+            thumbUrlMap.put(panoId, thumbUrl);
+        }
+
+        return pano720Xml;
+    }
+
+
+    public Pano720DO get720Pano(int id) throws Exception {
+        return pano720DAO.selectByPrimaryKey(id);
+    }
+
+
     public List<String> getAuthorIdList(int iPage) throws Exception {
         List<String> authorIdList = new ArrayList();
 
@@ -105,7 +182,6 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                     authorIdList.add(matcher.group(1));
             }
         }
-
 
         return authorIdList;
     }
@@ -135,77 +211,218 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
         return panoIdList;
     }
 
+    public boolean down720Pano(Pano720XmlDTO pano720Xml, Pano720DO pano720) throws Exception {
+        logger.info("crawler pano : {}{}", pano720.getId(), pano720.getPanoUrl());
+        boolean flag = true;
+
+        String rootPath = "/home/wbt/down/mypano/".replace("/", File.separator) + pano720.getPanoId() + File.separator;
+        File filePano = new File(rootPath);
+        if (!filePano.exists())
+            filePano.mkdirs();
 
 
+        List<String> sceneIdList = pano720Xml.getSceneIdList();// scene id list like 185856
+        List<String> panoIdList = pano720Xml.getPanoIdList();// same as sceneIdList
+        Map<String, String> sceneNameMap = pano720Xml.getSceneNameMap();// sceneId -> sceneName like 185856 -> scene_185856
+        Map<String, String> panoNameMap = pano720Xml.getPanoNameMap();// panoName -> panoId like pano185856 -> 185856
+        Map<String, String> sceneTitleMap = pano720Xml.getSceneTitleMap();
+        Map<String, String> thumbUrlMap = pano720Xml.getThumbUrlMap();// sceneId -> thumbUrl like 185856 -> /imgs/preview.jpg
+        Map<String, String> previewUrlMap = pano720Xml.getPreviewUrlMap();
+        Map<String, Pano720XmlDesktopImageDTO> desktopImageMap = pano720Xml.getDesktopImageMap();
+        Map<String, Pano720XmlMobileImageDTO> mobileImageMap = pano720Xml.getMobileImageMap();
 
-    public PanoXmlDTO parsePanoXml(String strPanoId) throws Exception {
-        PanoXmlDTO panoXmlDTO = new PanoXmlDTO();
+        Map<String,List<String>> levelFootUrlMap=new HashMap();
 
-        SceneDTO[] arySceneDTO = null;
-        String strPanoUrl = "http://xml.qncdn.720static.com/@/" + strPanoId + "/" + strPanoId + ".xml?" + new Date().getTime();
-        Document document = getDocument(strPanoUrl);
-        Element krpano = document.select("krpano").first();
-        Elements sceneElements = krpano.select("scene");
-        arySceneDTO = new SceneDTO[sceneElements.size()];
-        int sceneIndex = 0;
+        String[] S = {"b", "d", "f", "l", "r", "u"};
+        String[] L = {"l1", "l2", "l3", "l4", "l5", "l6", "l7", "l8", "l9"};
+        String[] V = null;
+        String[] H = null;
+        String[] withZero = {"01", "02", "03", "04", "05", "06", "07", "08", "09"};
+        String[] withoutZero = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
-        for (Element sceneElement : sceneElements) {
-            SceneDTO sceneDTO = new SceneDTO();
-            String sceneId = null;
-            String previewUrl = null;
-            ImageDTO desktopImage = null;
-            ImageDTO mobileImage = null;
+        for (String sceneId : sceneIdList) {
 
-            sceneId = sceneElement.attr("pano_id");
-            previewUrl = sceneElement.select("preview").first().attr("url");
-            Elements imageElements = sceneElement.select("image");
-            if (imageElements.size() > 0) {
-                Element desktopImageElement = sceneElement.select("image").get(0);
-                Elements levelElements = desktopImageElement.select("level");
-                desktopImage = new ImageDTO();
-                String[] width = new String[levelElements.size()];
-                String[] height = new String[levelElements.size()];
-                String[] cubeUrl = new String[levelElements.size()];
-                for (int i = 0; i < levelElements.size(); i++) {
-                    width[i] = levelElements.get(i).attr("tiledimagewidth");
-                    height[i] = levelElements.get(i).attr("tiledimageheight");
-                    cubeUrl[i] = levelElements.get(i).select("cube").first().attr("url");
+            List<String> levelWidthList = desktopImageMap.get(sceneId).getLevelWidthList();
+            List<String> levelHightList = desktopImageMap.get(sceneId).getLevelHightList();
+            List<String> levelCubeUrlList = desktopImageMap.get(sceneId).getLevelCubeUrlList();
+
+            List<String> levelFootUrlList=new ArrayList();
+            levelFootUrlMap.put(sceneId,levelFootUrlList);
+            for (int i = 0, len = levelCubeUrlList.size(); i < len; i++) {
+
+                String cubeUrl = levelCubeUrlList.get(i);
+                Pattern patternHead = Pattern.compile("https:(.*?)imgs/");
+                Matcher matcherHead = patternHead.matcher(cubeUrl);
+                Pattern patternFoot = Pattern.compile("imgs/(.*?).jpg");
+                Matcher matcherFoot = patternFoot.matcher(cubeUrl);
+
+                String strHeadUrl = matcherHead.find() ? "https:" + (matcherHead.group(1)) + "imgs/" : "";
+                String strFootUrl = matcherFoot.find() ? matcherFoot.group(1) + ".jpg" : "";
+                levelFootUrlList.add(strFootUrl);
+                int maxV = 0;
+                int maxH = 0;
+                String targetV = null;
+                String targetH = null;
+
+                if (strFootUrl.contains("%v")) {
+                    V = withoutZero;
+                    targetV = "%v";
+                } else {
+                    V = withZero;
+                    targetV = "%0v";
+                }
+                if (strFootUrl.contains("%h")) {
+                    H = withoutZero;
+                    targetH = "%h";
+                } else {
+                    H = withZero;
+                    targetH = "%0h";
                 }
 
-                desktopImage.setType(desktopImageElement.attr("type"));
-                desktopImage.setMultires(desktopImageElement.attr("multires"));
-                desktopImage.setTileSize(desktopImageElement.attr("tilesize"));
-                desktopImage.setImageIf(desktopImageElement.attr("if"));
-                desktopImage.setWidth(width);
-                desktopImage.setHeight(height);
-                desktopImage.setCubeUrl(cubeUrl);
+
+               /* for (int v = 0; v < V.length; v++) {
+                    String strTestUrl = cubeUrl.replace("%s", "b").replace(targetV, V[v]).replace(targetH, H[0]);
+                    boolean isImage = isImage(strTestUrl);
+                    if (isImage) {
+                        maxV = v;
+                    } else {
+                        logger.info("max %v : " + V[maxV]);
+                        break;
+                    }
+                }
+                for (int h = 0; h < H.length; h++) {
+                    String strTestUrl = cubeUrl.replace("%s", "b").replace(targetV, V[0]).replace(targetH, H[h]);
+                    boolean isImage = isImage(strTestUrl);
+                    if (isImage) {
+                        maxH = h;
+                    } else {
+                        logger.info("max %h : " + H[maxH]);
+                        break;
+                    }
+                }
+
+                for (int s = 0; s < S.length; s++) {
+                    for (int v = 0; v <= maxV; v++) {
+                        for (int h = 0; h <= maxH; h++) {
+                            Pattern pattern = Pattern.compile("imgs/%s/(.*?)/%");
+                            Matcher matcher = pattern.matcher(cubeUrl);
+                            String level = matcher.find() ? matcher.group(1) : "l0";
+
+                            StringBuffer strBufFileImagePath = new StringBuffer(rootPath);
+                            strBufFileImagePath.append(sceneId);
+                            strBufFileImagePath.append(File.separator);
+                            strBufFileImagePath.append(S[s]);
+                            strBufFileImagePath.append(File.separator);
+                            strBufFileImagePath.append(level);
+                            strBufFileImagePath.append(File.separator);
+                            strBufFileImagePath.append(V[v]);
+                            strBufFileImagePath.append(File.separator);
+
+
+                            StringBuffer strBufFileImage = new StringBuffer(strBufFileImagePath.toString());
+                            strBufFileImage.append(level);
+                            strBufFileImage.append("_");
+                            strBufFileImage.append(S[s]);
+                            strBufFileImage.append("_");
+                            strBufFileImage.append(V[v]);
+                            strBufFileImage.append("_");
+                            strBufFileImage.append(H[h]);
+                            strBufFileImage.append(".jpg");
+
+                            File fileImagePath = new File(strBufFileImagePath.toString());
+                            if (!fileImagePath.exists())
+                                fileImagePath.mkdirs();
+
+                            String strImageUrl = cubeUrl.replace("%s", S[s]).replace(targetV, V[v]).replace(targetH, H[h]);
+
+                            if (downImage(strImageUrl, strBufFileImage.toString()))
+                                logger.info(strImageUrl + " ==> " + strBufFileImage.toString());
+                            else
+                                logger.error(strImageUrl + " =/=> " + strBufFileImage.toString());
+                        }
+                    }
+                }*/
+
 
             }
-            if (imageElements.size() > 1) {
-                Element mobileImageElement = sceneElement.select("image").get(1);
-                mobileImage = new ImageDTO();
-                String[] cubeUrl = new String[1];
-                cubeUrl[0] = mobileImageElement.select("cube").first().attr("url");
-                mobileImage.setImageIf(mobileImageElement.attr("if"));
-                mobileImage.setCubeUrl(cubeUrl);
-
-            }
-            sceneDTO.setSceneId(sceneId);
-            sceneDTO.setDesktopImage(desktopImage);
-            sceneDTO.setMobileImage(mobileImage);
-            sceneDTO.setPreviewUrl(previewUrl);
-            arySceneDTO[sceneIndex++] = sceneDTO;
 
         }
 
 
-        panoXmlDTO.setPanoId(strPanoId);
-        panoXmlDTO.setScenes(arySceneDTO);
+        // create xml
+        Map<String,String> typeMap=new HashMap();
+        Map<String,String> multiresMap=new HashMap();
+        Map<String,String> tileSizeMap=new HashMap();
+        Map<String,String> desktopImageIfMap=new HashMap();
+        Map<String,Map<String, String>> sceneLevelMap=new HashMap();
+        Map<String,String> mobileImageIfMap=new HashMap();
+        Map<String,String> mobileCubeUrlMap=new HashMap();
+
+        for (String sceneId : sceneIdList) {
+
+            Pano720XmlDesktopImageDTO desktopImage=desktopImageMap.get(sceneId);
+            Pano720XmlMobileImageDTO mobileImage=mobileImageMap.get(sceneId);
+
+            Map<String, String> levelMap = new HashMap();
+            List<String> levelWidthList = desktopImage.getLevelWidthList();
+            List<String> levelHightList = desktopImage.getLevelHightList();
+            List<String> levelCubeUrlList = desktopImage.getLevelCubeUrlList();
 
 
-        return panoXmlDTO;
+            typeMap.put(sceneId,desktopImage.getType());
+            multiresMap.put(sceneId,desktopImage.getMultires());
+            tileSizeMap.put(sceneId,desktopImage.getTileSize());
+            desktopImageIfMap.put(sceneId,desktopImage.getImageIf());
+            mobileImageIfMap.put(sceneId,mobileImage.getImageIf());
+            mobileCubeUrlMap.put(sceneId,mobileImage.getLevelCubeUrl());
+            sceneLevelMap.put(sceneId,levelMap);
+
+            for (int i = 0, len = levelWidthList.size(); i < len; i++) {
+                levelMap.put(levelWidthList.get(i), levelFootUrlMap.get(sceneId).get(i));
+            }
+        }
+
+        VelocityContext velocityContext = new VelocityContext();
+        velocityContext.put("sceneIdList", sceneIdList);
+        velocityContext.put("typeMap", typeMap);
+        velocityContext.put("multiresMap", multiresMap);
+        velocityContext.put("tileSizeMap", tileSizeMap);
+        velocityContext.put("desktopImageIfMap", desktopImageIfMap);
+        velocityContext.put("sceneLevelMap", sceneLevelMap);
+        velocityContext.put("mobileImageIfMap", mobileImageIfMap);
+        velocityContext.put("mobileCubeUrlMap", mobileCubeUrlMap);
+
+
+        Properties p = new Properties();
+        p.setProperty("resource.loader", "class");
+        p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        VelocityEngine velocityEngine = new VelocityEngine();
+        velocityEngine.init(p);
+        Template template = velocityEngine.getTemplate("pano_templet.vm", "UTF-8");
+
+        StringWriter stringWriter = new StringWriter();
+        template.merge(velocityContext, stringWriter);
+
+        BufferedReader bufferedReader = null;
+        BufferedWriter bufferedWriter = null;
+
+        File distFile = new File("/home/wbt/down/pano.xml");
+        if (!distFile.getParentFile().exists()) distFile.getParentFile().mkdirs();
+        bufferedReader = new BufferedReader(new StringReader(stringWriter.getBuffer().toString()));
+        bufferedWriter = new BufferedWriter(new FileWriter(distFile));
+        char buf[] = new char[1024];
+        int len;
+        while ((len = bufferedReader.read(buf)) != -1) {
+            bufferedWriter.write(buf, 0, len);
+        }
+        bufferedWriter.flush();
+        bufferedReader.close();
+        bufferedWriter.close();
+        // end create xml
+
+
+        return flag;
     }
-
 
     public boolean downloadPano(PanoXmlDTO panoXmlDTO, AuthorDTO authorDTO) throws Exception {
         logger.info("crawler pano : " + panoXmlDTO.getPanoId());
@@ -431,26 +648,6 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
         }
         return document;
     }
-
-    /*private static boolean judgeImage(String strUrl) {
-        Document document = null;
-        try {
-            CrawlerUtils crawlerUtils = new CrawlerUtils();
-            document = crawlerUtils.getDocument(strUrl, 0);
-        } catch (Exception ex) {
-
-        }
-        if (document == null)
-            return false;
-        String strHtml = document.html();
-
-        if (strHtml.indexOf("error") >= 0 || strHtml.indexOf("E502") >= 0) {
-            return false;
-        }
-
-
-        return true;
-    }*/
 
 
     private boolean isImage(String strUrl) {

@@ -74,5 +74,74 @@ public class PanoCrawlerServiceImpl {
             logger.error("{}", ex);
         }
         return panoList;
-    }*/
+    }
+
+     public PanoXmlDTO parsePanoXml(String strPanoId) throws Exception {
+        PanoXmlDTO panoXmlDTO = new PanoXmlDTO();
+
+        SceneDTO[] arySceneDTO = null;
+        String strPanoUrl = "http://xml.qncdn.720static.com/@/" + strPanoId + "/" + strPanoId + ".xml?" + new Date().getTime();
+        Document document = getDocument(strPanoUrl);
+        Element krpano = document.select("krpano").first();
+        Elements sceneElements = krpano.select("scene");
+        arySceneDTO = new SceneDTO[sceneElements.size()];
+        int sceneIndex = 0;
+
+        for (Element sceneElement : sceneElements) {
+            SceneDTO sceneDTO = new SceneDTO();
+            String sceneId = null;
+            String previewUrl = null;
+            ImageDTO desktopImage = null;
+            ImageDTO mobileImage = null;
+
+            sceneId = sceneElement.attr("pano_id");
+            previewUrl = sceneElement.select("preview").first().attr("url");
+            Elements imageElements = sceneElement.select("image");
+            if (imageElements.size() > 0) {
+                Element desktopImageElement = sceneElement.select("image").get(0);
+                Elements levelElements = desktopImageElement.select("level");
+                desktopImage = new ImageDTO();
+                String[] width = new String[levelElements.size()];
+                String[] height = new String[levelElements.size()];
+                String[] cubeUrl = new String[levelElements.size()];
+                for (int i = 0; i < levelElements.size(); i++) {
+                    width[i] = levelElements.get(i).attr("tiledimagewidth");
+                    height[i] = levelElements.get(i).attr("tiledimageheight");
+                    cubeUrl[i] = levelElements.get(i).select("cube").first().attr("url");
+                }
+
+                desktopImage.setType(desktopImageElement.attr("type"));
+                desktopImage.setMultires(desktopImageElement.attr("multires"));
+                desktopImage.setTileSize(desktopImageElement.attr("tilesize"));
+                desktopImage.setImageIf(desktopImageElement.attr("if"));
+                desktopImage.setWidth(width);
+                desktopImage.setHeight(height);
+                desktopImage.setCubeUrl(cubeUrl);
+
+            }
+            if (imageElements.size() > 1) {
+                Element mobileImageElement = sceneElement.select("image").get(1);
+                mobileImage = new ImageDTO();
+                String[] cubeUrl = new String[1];
+                cubeUrl[0] = mobileImageElement.select("cube").first().attr("url");
+                mobileImage.setImageIf(mobileImageElement.attr("if"));
+                mobileImage.setCubeUrl(cubeUrl);
+
+            }
+            sceneDTO.setSceneId(sceneId);
+            sceneDTO.setDesktopImage(desktopImage);
+            sceneDTO.setMobileImage(mobileImage);
+            sceneDTO.setPreviewUrl(previewUrl);
+            arySceneDTO[sceneIndex++] = sceneDTO;
+
+        }
+
+
+        panoXmlDTO.setPanoId(strPanoId);
+        panoXmlDTO.setScenes(arySceneDTO);
+
+
+        return panoXmlDTO;
+    }
+    */
 }

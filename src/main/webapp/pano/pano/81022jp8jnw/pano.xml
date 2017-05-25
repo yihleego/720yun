@@ -1,11 +1,5 @@
 <krpano version="1.19">
-    <include url="%SWFPATH%/xml/config.xml"/>
-
-
-
-
-
-
+    <include url="%SWFPATH%/xml/config.xml" />
     <scene name="scene_271914" pano_id="271914" thumburl="271914/preview.jpg">
         <preview url="271914/preview.jpg" />
         <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
@@ -20,7 +14,7 @@
             </level>
         </image>
         <image if="webvr.isenabled OR !device.desktop">
-            <cube url="271914/mobile_%s.jpg"/>
+            <cube url="271914/mobile_%s.jpg" />
         </image>
     </scene>
     <scene name="scene_327504" pano_id="327504" thumburl="327504/preview.jpg">
@@ -40,8 +34,7 @@
             </level>
         </image>
         <image if="webvr.isenabled OR !device.desktop">
-            <cube url="327504/mobile_%s.jpg"/>
+            <cube url="327504/mobile_%s.jpg" />
         </image>
     </scene>
-
 </krpano>

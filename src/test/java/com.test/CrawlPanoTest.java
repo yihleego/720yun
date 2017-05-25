@@ -2,6 +2,7 @@ package com.test;
 
 import com.yihleego.pano.dao.Pano720DAO;
 import com.yihleego.pano.pojo.DO.Pano720DO;
+import com.yihleego.pano.pojo.DTO.Pano720XmlDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -32,19 +33,21 @@ public class CrawlPanoTest {
     @Test
     public void crawl720yun() {
         try {
-            panoCrawlerService.save720yunPano(1, 4);
+            panoCrawlerService.save720Pano(1, 4);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Test
     public void save720yun() {
         try {
-            Pano720DO pano720=new Pano720DO();
-            pano720.setPanoId("2");
-            pano720.setPanoUrl("1");
-            pano720.setPanoXmlUrl("2");
-            pano720DAO.insertSelective(pano720);
+
+            Pano720DO pano720 = panoCrawlerService.get720Pano(43111);
+
+            Pano720XmlDTO pano720Xml = panoCrawlerService.parse720PanoXml(pano720);
+
+            panoCrawlerService.down720Pano(pano720Xml, pano720);
 
         } catch (Exception e) {
             e.printStackTrace();
