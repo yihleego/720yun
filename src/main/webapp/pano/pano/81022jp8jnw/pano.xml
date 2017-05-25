@@ -1,0 +1,47 @@
+<krpano version="1.19">
+    <include url="%SWFPATH%/xml/config.xml"/>
+
+
+
+
+
+
+    <scene name="scene_271914" pano_id="271914" thumburl="271914/preview.jpg">
+        <preview url="271914/preview.jpg" />
+        <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
+            <level tiledimagewidth="2546" tiledimageheight="2546">
+                <cube url="271914/%s/l3/%v/l3_%s_%v_%h.jpg" />
+            </level>
+            <level tiledimagewidth="1274" tiledimageheight="1274">
+                <cube url="271914/%s/l2/%v/l2_%s_%v_%h.jpg" />
+            </level>
+            <level tiledimagewidth="638" tiledimageheight="638">
+                <cube url="271914/%s/l1/%v/l1_%s_%v_%h.jpg" />
+            </level>
+        </image>
+        <image if="webvr.isenabled OR !device.desktop">
+            <cube url="271914/mobile_%s.jpg"/>
+        </image>
+    </scene>
+    <scene name="scene_327504" pano_id="327504" thumburl="327504/preview.jpg">
+        <preview url="327504/preview.jpg" />
+        <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
+            <level tiledimagewidth="3820" tiledimageheight="3820">
+                <cube url="327504/%s/l4/%v/l4_%s_%v_%h.jpg" />
+            </level>
+            <level tiledimagewidth="1910" tiledimageheight="1910">
+                <cube url="327504/%s/l3/%v/l3_%s_%v_%h.jpg" />
+            </level>
+            <level tiledimagewidth="956" tiledimageheight="956">
+                <cube url="327504/%s/l2/%v/l2_%s_%v_%h.jpg" />
+            </level>
+            <level tiledimagewidth="512" tiledimageheight="512">
+                <cube url="327504/%s/l1/%v/l1_%s_%v_%h.jpg" />
+            </level>
+        </image>
+        <image if="webvr.isenabled OR !device.desktop">
+            <cube url="327504/mobile_%s.jpg"/>
+        </image>
+    </scene>
+
+</krpano>

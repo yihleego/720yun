@@ -3,7 +3,7 @@ package com.yihleego.pano.pojo;
 import java.io.Serializable;
 
 /**
- * Created by wbt on 17-5-17.
+ * Created by YihLeego on 17-5-17.
  */
 public class Result<T> implements Serializable {
 

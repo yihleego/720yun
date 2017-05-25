@@ -13,30 +13,31 @@ public class Pano720DO implements Serializable {
     private String panoUrl;//'720yun的pano的链接'
     private String panoXmlUrl;//'720云的pano的xml的链接'
     private Long createDate;//'创建时间'
-    private Long crawlData;//'爬取时间'
-    private int status;//状态 0：未爬 1：已爬 2：爬失败
-
+    private Long crawlDate;//'爬取时间'
+    private Integer status;//状态 0：未爬 1：已爬 2：爬失败
 
     public Pano720DO() {
     }
-
-    public Pano720DO(String panoId, String panoUrl, String panoXmlUrl, Long createDate, Long crawlData, int status) {
+    public Pano720DO( String panoId, String panoUrl, String panoXmlUrl, Long createDate, Long crawlDate, Integer status) {
         this.panoId = panoId;
         this.panoUrl = panoUrl;
         this.panoXmlUrl = panoXmlUrl;
         this.createDate = createDate;
-        this.crawlData = crawlData;
+        this.crawlDate = crawlDate;
         this.status = status;
     }
-
-    public Pano720DO(Integer id, String panoId, String panoUrl, String panoXmlUrl, Long createDate, Long crawlData, int status) {
+    public Pano720DO(Integer id, String panoId, String panoUrl, String panoXmlUrl, Long createDate, Long crawlDate, Integer status) {
         this.id = id;
         this.panoId = panoId;
         this.panoUrl = panoUrl;
         this.panoXmlUrl = panoXmlUrl;
         this.createDate = createDate;
-        this.crawlData = crawlData;
+        this.crawlDate = crawlDate;
         this.status = status;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getId() {
@@ -79,19 +80,19 @@ public class Pano720DO implements Serializable {
         this.createDate = createDate;
     }
 
-    public Long getCrawlData() {
-        return crawlData;
+    public Long getCrawlDate() {
+        return crawlDate;
     }
 
-    public void setCrawlData(Long crawlData) {
-        this.crawlData = crawlData;
+    public void setCrawlDate(Long crawlDate) {
+        this.crawlDate = crawlDate;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

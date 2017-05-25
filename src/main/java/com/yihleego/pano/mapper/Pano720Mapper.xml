@@ -1,230 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yihleego.pano.dao.Pano720DAO">
-  <resultMap id="BaseResultMap" type="com.yihleego.pano.pojo.DO.Pano720DO">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="pano_id" jdbcType="VARCHAR" property="panoId" />
-    <result column="pano_url" jdbcType="VARCHAR" property="panoUrl" />
-    <result column="pano_xml_url" jdbcType="VARCHAR" property="panoXmlUrl" />
-    <result column="create_date" jdbcType="BIGINT" property="createDate" />
-    <result column="crawl_date" jdbcType="BIGINT" property="crawlDate" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, pano_id, pano_url, pano_xml_url, create_date, crawl_date, status
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from pano720
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from pano720
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    insert into pano720 (id, pano_id, pano_url, 
-      pano_xml_url, create_date, crawl_date, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{panoId,jdbcType=VARCHAR}, #{panoUrl,jdbcType=VARCHAR}, 
-      #{panoXmlUrl,jdbcType=VARCHAR}, #{createDate,jdbcType=BIGINT}, #{crawlDate,jdbcType=BIGINT}, 
-      #{status,jdbcType=TINYINT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    insert into pano720
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="panoId != null">
-        pano_id,
-      </if>
-      <if test="panoUrl != null">
-        pano_url,
-      </if>
-      <if test="panoXmlUrl != null">
-        pano_xml_url,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="crawlDate != null">
-        crawl_date,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="panoId != null">
-        #{panoId,jdbcType=VARCHAR},
-      </if>
-      <if test="panoUrl != null">
-        #{panoUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="panoXmlUrl != null">
-        #{panoXmlUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=BIGINT},
-      </if>
-      <if test="crawlDate != null">
-        #{crawlDate,jdbcType=BIGINT},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    update pano720
-    <set>
-      <if test="panoId != null">
-        pano_id = #{panoId,jdbcType=VARCHAR},
-      </if>
-      <if test="panoUrl != null">
-        pano_url = #{panoUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="panoXmlUrl != null">
-        pano_xml_url = #{panoXmlUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=BIGINT},
-      </if>
-      <if test="crawlDate != null">
-        crawl_date = #{crawlDate,jdbcType=BIGINT},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    update pano720
-    set pano_id = #{panoId,jdbcType=VARCHAR},
-      pano_url = #{panoUrl,jdbcType=VARCHAR},
-      pano_xml_url = #{panoXmlUrl,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=BIGINT},
-      crawl_date = #{crawlDate,jdbcType=BIGINT},
-      status = #{status,jdbcType=TINYINT}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="com.yihleego.pano.pojo.DO.Pano720DO">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="pano_id" jdbcType="VARCHAR" property="panoId" />
-    <result column="pano_url" jdbcType="VARCHAR" property="panoUrl" />
-    <result column="pano_xml_url" jdbcType="VARCHAR" property="panoXmlUrl" />
-    <result column="create_date" jdbcType="BIGINT" property="createDate" />
-    <result column="crawl_date" jdbcType="BIGINT" property="crawlDate" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, pano_id, pano_url, pano_xml_url, create_date, crawl_date, status
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from pano720
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from pano720
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    insert into pano720 (id, pano_id, pano_url, 
-      pano_xml_url, create_date, crawl_date, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{panoId,jdbcType=VARCHAR}, #{panoUrl,jdbcType=VARCHAR}, 
-      #{panoXmlUrl,jdbcType=VARCHAR}, #{createDate,jdbcType=BIGINT}, #{crawlDate,jdbcType=BIGINT}, 
-      #{status,jdbcType=TINYINT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    insert into pano720
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="panoId != null">
-        pano_id,
-      </if>
-      <if test="panoUrl != null">
-        pano_url,
-      </if>
-      <if test="panoXmlUrl != null">
-        pano_xml_url,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="crawlDate != null">
-        crawl_date,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="panoId != null">
-        #{panoId,jdbcType=VARCHAR},
-      </if>
-      <if test="panoUrl != null">
-        #{panoUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="panoXmlUrl != null">
-        #{panoXmlUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=BIGINT},
-      </if>
-      <if test="crawlDate != null">
-        #{crawlDate,jdbcType=BIGINT},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    update pano720
-    <set>
-      <if test="panoId != null">
-        pano_id = #{panoId,jdbcType=VARCHAR},
-      </if>
-      <if test="panoUrl != null">
-        pano_url = #{panoUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="panoXmlUrl != null">
-        pano_xml_url = #{panoXmlUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=BIGINT},
-      </if>
-      <if test="crawlDate != null">
-        crawl_date = #{crawlDate,jdbcType=BIGINT},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
-    update pano720
-    set pano_id = #{panoId,jdbcType=VARCHAR},
-      pano_url = #{panoUrl,jdbcType=VARCHAR},
-      pano_xml_url = #{panoXmlUrl,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=BIGINT},
-      crawl_date = #{crawlDate,jdbcType=BIGINT},
-      status = #{status,jdbcType=TINYINT}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <resultMap id="BaseResultMap" type="com.yihleego.pano.pojo.DO.Pano720DO">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="pano_id" jdbcType="VARCHAR" property="panoId" />
+        <result column="pano_url" jdbcType="VARCHAR" property="panoUrl" />
+        <result column="pano_xml_url" jdbcType="VARCHAR" property="panoXmlUrl" />
+        <result column="create_date" jdbcType="BIGINT" property="createDate" />
+        <result column="crawl_date" jdbcType="BIGINT" property="crawlDate" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, pano_id, pano_url, pano_xml_url, create_date, crawl_date, status
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" /> from pano720 where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from pano720 where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
+        insert into pano720 (id, pano_id, pano_url, pano_xml_url, create_date, crawl_date, status) values (#{id,jdbcType=INTEGER}, #{panoId,jdbcType=VARCHAR}, #{panoUrl,jdbcType=VARCHAR}, #{panoXmlUrl,jdbcType=VARCHAR}, #{createDate,jdbcType=BIGINT}, #{crawlDate,jdbcType=BIGINT}, #{status,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
+        insert into pano720
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="panoId != null">
+                pano_id,
+            </if>
+            <if test="panoUrl != null">
+                pano_url,
+            </if>
+            <if test="panoXmlUrl != null">
+                pano_xml_url,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="crawlDate != null">
+                crawl_date,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="panoId != null">
+                #{panoId,jdbcType=VARCHAR},
+            </if>
+            <if test="panoUrl != null">
+                #{panoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="panoXmlUrl != null">
+                #{panoXmlUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=BIGINT},
+            </if>
+            <if test="crawlDate != null">
+                #{crawlDate,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
+        update pano720
+        <set>
+            <if test="panoId != null">
+                pano_id = #{panoId,jdbcType=VARCHAR},
+            </if>
+            <if test="panoUrl != null">
+                pano_url = #{panoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="panoXmlUrl != null">
+                pano_xml_url = #{panoXmlUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=BIGINT},
+            </if>
+            <if test="crawlDate != null">
+                crawl_date = #{crawlDate,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yihleego.pano.pojo.DO.Pano720DO">
+        update pano720 set pano_id = #{panoId,jdbcType=VARCHAR}, pano_url = #{panoUrl,jdbcType=VARCHAR}, pano_xml_url = #{panoXmlUrl,jdbcType=VARCHAR}, create_date = #{createDate,jdbcType=BIGINT}, crawl_date = #{crawlDate,jdbcType=BIGINT}, status = #{status,jdbcType=TINYINT} where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

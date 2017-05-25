@@ -4,7 +4,7 @@ import com.yihleego.pano.pojo.DO.Pano720DO;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by wbt on 17-5-24.
+ * Created by YihLeego on 17-5-24.
  */
 @Repository
 public interface Pano720DAO {

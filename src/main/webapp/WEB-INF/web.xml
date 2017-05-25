@@ -13,6 +13,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
+        <url-pattern>*.xml</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -63,6 +67,30 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.swf</url-pattern>
     </servlet-mapping>
+
+    <!-- 过滤器,过滤不合法请求 -->
+    <filter>
+        <filter-name>mainFliter</filter-name>
+        <filter-class>com.yihleego.pano.filter.MainFliter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>mainFliter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <filter>
+        <filter-name>urlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+       <!-- <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:WEB-INF/urlrewrite.xml</param-value>
+        </init-param>-->
+    </filter>
+    <filter-mapping>
+        <filter-name>urlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!-- 在Spring框架中是如何解决从页面传来的字符串的编码问题的呢？
     下面我们来看看Spring框架给我们提供过滤器CharacterEncodingFilter

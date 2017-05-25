@@ -1,11 +1,13 @@
 package com.yihleego.pano.service.impl;
 
 
-import com.alibaba.fastjson.JSON;
 import com.yihleego.crawler.util.CrawlerUtils;
 import com.yihleego.pano.dao.Pano720DAO;
 import com.yihleego.pano.pojo.DO.Pano720DO;
-import com.yihleego.pano.pojo.DTO.*;
+import com.yihleego.pano.pojo.DTO.AuthorDTO;
+import com.yihleego.pano.pojo.DTO.ImageDTO;
+import com.yihleego.pano.pojo.DTO.PanoXmlDTO;
+import com.yihleego.pano.pojo.DTO.SceneDTO;
 import com.yihleego.pano.service.PanoCrawlerService;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,18 +57,23 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
 
         System.out.println(panoIdList.size());
 
-        for(int i=0,len=panoIdList.size();i<len;i++){
+        for (int i = 0, len = panoIdList.size(); i < len; i++) {
             Pano720DO pano720 = new Pano720DO();
             Long getTime = new Date().getTime();
-            String panoId = "";
+            String panoId = panoIdList.get(i);
             String panoUrl = "http://720yun.com/t/" + panoId;
             String panoXmlUrl = "http://xml.qncdn.720static.com/@/" + panoId + "/" + panoId + ".xml?" + getTime;
 
             pano720.setPanoId(panoId);
             pano720.setPanoUrl(panoUrl);
             pano720.setPanoXmlUrl(panoXmlUrl);
-            pano720.setCrawlData(getTime);
-            pano720DAO.insert(pano720);
+            pano720.setCreateDate(getTime);
+            try {
+                pano720DAO.insertSelective(pano720);
+            } catch (Exception e) {
+                logger.error("insert failed {}", e);
+            }
+
         }
 
         return flag;
@@ -129,65 +136,6 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
     }
 
 
-    public List<AuthorDTO> getAuthorList(int iPage) throws Exception {
-        List<AuthorDTO> authorDTOList = new ArrayList();
-
-        try {
-            String strAuthorListUrl = "https://ssl-api.720yun.com/api/author/1/0/99999999/" + iPage;
-            Document document = getDocument(strAuthorListUrl);
-            String strJSONAuthor = document.body().text().toString();
-
-
-            Pattern pattern = Pattern.compile("\"members\":\\[(.*?)\\]");
-            Matcher matcher = pattern.matcher(strJSONAuthor);
-
-            String[] authorArray = null;
-            if (matcher.find())
-                authorArray = matcher.group(1).split("(?<=\\}),(?=\\{)");
-
-            for (String authorInfo : authorArray) {
-                try {
-                    AuthorDTO AuthorDTO = JSON.parseObject(authorInfo, AuthorDTO.class);
-                    authorDTOList.add(AuthorDTO);
-                } catch (Exception e) {
-                    logger.error("failed to object" + authorInfo + "{}:", e);
-
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return authorDTOList;
-    }
-
-
-    public List<PanoDTO> getPanoList(String strAuthorId) throws Exception {
-        List<PanoDTO> panoList = new ArrayList();
-        try {
-            String strAuthorInfoApiUrl = "https://ssl-api.720yun.com/api/member/" + strAuthorId;
-            Document document = getDocument(strAuthorInfoApiUrl);
-            String strJSONProduct = document.body().text().toString();
-            Pattern pattern = Pattern.compile("\"products\":\\[(.*?)\\],\"wx");
-            Matcher matcher = pattern.matcher(strJSONProduct);
-            String[] productArray = null;
-            if (matcher.find())
-                productArray = matcher.group(1).split("(?<=\\}),(?=\\{)");
-            for (String product : productArray) {
-                try {
-                    PanoDTO pano = JSON.parseObject(product, PanoDTO.class);
-                    panoList.add(pano);
-                } catch (Exception e) {
-                    logger.error("failed to object" + product + "{}:", e);
-                }
-
-            }
-
-        } catch (Exception ex) {
-            logger.error("{}", ex);
-        }
-        return panoList;
-    }
 
 
     public PanoXmlDTO parsePanoXml(String strPanoId) throws Exception {
@@ -592,6 +540,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
         }
         return out.toString();
     }
+
 
 }
 

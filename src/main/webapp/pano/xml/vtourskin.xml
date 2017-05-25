@@ -1,4 +1,4 @@
-﻿<krpano>
+﻿<krpano version="1.19">
 
 	<!-- krpano 1.19.pr6 - Virtual Tour Skin -->
 
@@ -41,7 +41,7 @@
 	               controlbar_offset_closed="-40"
 	               controlbar_overlap.no-fractionalscaling="10"
 	               controlbar_overlap.fractionalscaling="0"
-	               design_skin_images="vtourskin.png"
+	               design_skin_images="%SWFPATH%/img/vtourskin.png"
 	               design_bgcolor="0x2D3E50"
 	               design_bgalpha="0.8"
 	               design_bgborder="0"
@@ -90,7 +90,7 @@
 
 
 	<!-- include VR support - http://krpano.com/plugins/webvr/ -->
-	<include url="%SWFPATH%/webvr.xml" devices="html5" />
+	<include url="%SWFPATH%/xml/webvr.xml" devices="html5" />
 
 	<!-- overwrite some settings from the webvr.xml for the skin integration -->
 	<plugin name="WebVR" keep="true" devices="html5"

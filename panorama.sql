@@ -11,6 +11,7 @@ CREATE TABLE `pano720`(
 `crawl_date` BIGINT(20) NOT NULL DEFAULT '0' COMMENT '爬取时间',
 `status` TINYINT UNSIGNED  NOT NULL DEFAULT '0' COMMENT '状态 0：未爬 1：已爬 2：爬失败'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '720yun 全景信息表';
+CREATE INDEX `idx_pano720_status` ON `pano720`(`status`);
 
 
 CREATE TABLE `regular`(
