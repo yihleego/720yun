@@ -231,7 +231,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
         Map<String, Pano720XmlDesktopImageDTO> desktopImageMap = pano720Xml.getDesktopImageMap();
         Map<String, Pano720XmlMobileImageDTO> mobileImageMap = pano720Xml.getMobileImageMap();
 
-        Map<String,List<String>> levelFootUrlMap=new HashMap();
+        Map<String, List<String>> levelFootUrlMap = new HashMap();
 
         String[] S = {"b", "d", "f", "l", "r", "u"};
         String[] L = {"l1", "l2", "l3", "l4", "l5", "l6", "l7", "l8", "l9"};
@@ -246,8 +246,8 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
             List<String> levelHightList = desktopImageMap.get(sceneId).getLevelHightList();
             List<String> levelCubeUrlList = desktopImageMap.get(sceneId).getLevelCubeUrlList();
 
-            List<String> levelFootUrlList=new ArrayList();
-            levelFootUrlMap.put(sceneId,levelFootUrlList);
+            List<String> levelFootUrlList = new ArrayList();
+            levelFootUrlMap.put(sceneId, levelFootUrlList);
             for (int i = 0, len = levelCubeUrlList.size(); i < len; i++) {
 
                 String cubeUrl = levelCubeUrlList.get(i);
@@ -280,7 +280,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                 }
 
 
-               /* for (int v = 0; v < V.length; v++) {
+                for (int v = 0; v < V.length; v++) {
                     String strTestUrl = cubeUrl.replace("%s", "b").replace(targetV, V[v]).replace(targetH, H[0]);
                     boolean isImage = isImage(strTestUrl);
                     if (isImage) {
@@ -300,6 +300,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                         break;
                     }
                 }
+
 
                 for (int s = 0; s < S.length; s++) {
                     for (int v = 0; v <= maxV; v++) {
@@ -341,27 +342,24 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                                 logger.error(strImageUrl + " =/=> " + strBufFileImage.toString());
                         }
                     }
-                }*/
-
-
+                }
             }
-
         }
 
 
         // create xml
-        Map<String,String> typeMap=new HashMap();
-        Map<String,String> multiresMap=new HashMap();
-        Map<String,String> tileSizeMap=new HashMap();
-        Map<String,String> desktopImageIfMap=new HashMap();
-        Map<String,Map<String, String>> sceneLevelMap=new HashMap();
-        Map<String,String> mobileImageIfMap=new HashMap();
-        Map<String,String> mobileCubeUrlMap=new HashMap();
+        Map<String, String> typeMap = new HashMap();
+        Map<String, String> multiresMap = new HashMap();
+        Map<String, String> tileSizeMap = new HashMap();
+        Map<String, String> desktopImageIfMap = new HashMap();
+        Map<String, Map<String, String>> sceneLevelMap = new HashMap();
+        Map<String, String> mobileImageIfMap = new HashMap();
+        Map<String, String> mobileCubeUrlMap = new HashMap();
 
         for (String sceneId : sceneIdList) {
 
-            Pano720XmlDesktopImageDTO desktopImage=desktopImageMap.get(sceneId);
-            Pano720XmlMobileImageDTO mobileImage=mobileImageMap.get(sceneId);
+            Pano720XmlDesktopImageDTO desktopImage = desktopImageMap.get(sceneId);
+            Pano720XmlMobileImageDTO mobileImage = mobileImageMap.get(sceneId);
 
             Map<String, String> levelMap = new HashMap();
             List<String> levelWidthList = desktopImage.getLevelWidthList();
@@ -369,13 +367,13 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
             List<String> levelCubeUrlList = desktopImage.getLevelCubeUrlList();
 
 
-            typeMap.put(sceneId,desktopImage.getType());
-            multiresMap.put(sceneId,desktopImage.getMultires());
-            tileSizeMap.put(sceneId,desktopImage.getTileSize());
-            desktopImageIfMap.put(sceneId,desktopImage.getImageIf());
-            mobileImageIfMap.put(sceneId,mobileImage.getImageIf());
-            mobileCubeUrlMap.put(sceneId,mobileImage.getLevelCubeUrl());
-            sceneLevelMap.put(sceneId,levelMap);
+            typeMap.put(sceneId, desktopImage.getType());
+            multiresMap.put(sceneId, desktopImage.getMultires());
+            tileSizeMap.put(sceneId, desktopImage.getTileSize());
+            desktopImageIfMap.put(sceneId, desktopImage.getImageIf());
+            mobileImageIfMap.put(sceneId, mobileImage.getImageIf());
+            mobileCubeUrlMap.put(sceneId, mobileImage.getLevelCubeUrl());
+            sceneLevelMap.put(sceneId, levelMap);
 
             for (int i = 0, len = levelWidthList.size(); i < len; i++) {
                 levelMap.put(levelWidthList.get(i), levelFootUrlMap.get(sceneId).get(i));
