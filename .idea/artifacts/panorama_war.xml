@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="panorama:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="panorama.war">
+      <element id="artifact" artifact-name="panorama:war exploded" />
+    </root>
+  </artifact>
+</component>

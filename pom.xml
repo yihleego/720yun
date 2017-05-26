@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.yihleego</groupId>
-    <artifactId>pano</artifactId>
+    <artifactId>panorama</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>pano Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <build>
-        <finalName>pano</finalName>
+        <finalName>panorama</finalName>
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>

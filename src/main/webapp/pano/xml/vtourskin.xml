@@ -15,7 +15,7 @@
 	               littleplanetintro="false"
 	               title="true"
 	               thumbs="true"
-	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160|512"
 	               thumbs_opened="false"
 	               thumbs_text="false"
 	               thumbs_dragging="true"
@@ -116,7 +116,7 @@
 
 	<!-- show a 'rotate the device' info when the mobile device is in portrait orientation in VR mode -->
 	<layer name="webvr_rotate_to_landscape_request" keep="true" vr="true" devices="mobile"
-	       url="rotate_device.png" scale="0.5"
+	       url="%SWFPATH%/img/rotate_device.png" scale="0.5"
 	       align="top" edge="center" y="28%"
 	       autoalpha="true" alpha="0.0"
 	       enabled="false"
@@ -363,7 +363,7 @@
 
 
 	<!-- gyro plugin -->
-	<plugin name="skin_gyro" keep="true" url="" html5_url="%SWFPATH%/plugins/gyro2.js" softstart="1.0" enabled="false" onavailable="skin_arrange_buttons();" devices="html5" />
+	<plugin name="skin_gyro" keep="true" url="" html5_url="%SWFPATH%/js/gyro2.js" softstart="1.0" enabled="false" onavailable="skin_arrange_buttons();" devices="html5" />
 
 
 	<!-- skin events -->

@@ -1,7 +1,7 @@
 <krpano version="1.19">
     <include url="%SWFPATH%/xml/config.xml"/>
     #foreach(${sceneId} in ${sceneIdList})
-        <scene name="scene_${sceneId}" pano_id="${sceneId}" thumburl="${sceneId}/thumb.jpg">
+        <scene name="scene_${sceneId}" pano_id="${sceneId}" title="${titleMap.get(${sceneId})}" thumburl="${sceneId}/thumb.jpg">
             <preview url="${sceneId}/preview.jpg"/>
             <image type="${typeMap.get(${sceneId})}" multires="${multiresMap.get(${sceneId})}" tilesize="${tileSizeMap.get(${sceneId})}" if="${desktopImageIfMap.get(${sceneId})}">
                 #foreach(${level} in ${sceneLevelMap.get(${sceneId}).entrySet()})
@@ -11,7 +11,7 @@
                 #end
             </image>
             <image if="${mobileImageIfMap.get(${sceneId})}">
-                <cube url="${mobileCubeUrlMap.get(${sceneId})}"/>
+                <cube url="${sceneId}/mobile_%s.jpg"/>
             </image>
         </scene>
     #end

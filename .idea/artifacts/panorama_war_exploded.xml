@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" build-on-make="true" name="pano:war exploded">
-    <output-path>$PROJECT_DIR$/target/pano</output-path>
+  <artifact type="exploded-war" name="panorama:war exploded">
+    <output-path>$PROJECT_DIR$/target/panorama</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="pano" />
+          <element id="module-output" name="panorama" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.8.RELEASE" />
@@ -80,9 +80,9 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/pano/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/panorama/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="pano/web/Web" />
+      <element id="javaee-facet-resources" facet="panorama/web/Web" />
     </root>
   </artifact>
 </component>

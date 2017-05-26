@@ -344,7 +344,52 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
                     }
                 }
             }
+
+
+            String scenePath=rootPath+sceneId+File.separator;
+            File fileImagePath = new File(scenePath);
+            if (!fileImagePath.exists())
+                fileImagePath.mkdirs();
+
+            //get preview.jpg
+            String previewPath=scenePath+"preview.jpg";
+            String previewUrl=previewUrlMap.get(sceneId);
+            if (downImage(previewUrl, previewPath))
+                logger.info(previewUrl + " ==> " + previewPath);
+            else
+                logger.error(previewUrl + " =/=> " + previewPath);
+
+
+            //get thumb.jpg
+            String thumbPath=scenePath+"thumb.jpg";
+            String thumbUrl=thumbUrlMap.get(sceneId);
+            if (downImage(thumbUrl, thumbPath))
+                logger.info(thumbUrl + " ==> " + thumbPath);
+            else
+                logger.error(thumbUrl + " =/=> " + thumbPath);
+
+
+            //get mobile.jpg
+            Pano720XmlMobileImageDTO mobileImage = mobileImageMap.get(sceneId);
+            String mobileUrl=mobileImage.getLevelCubeUrl();
+            for (int s = 0; s < S.length; s++) {
+                String mobilePath=scenePath+"mobile_"+S[s]+".jpg";
+                downImage(mobileUrl.replace("%s", S[s]), mobilePath);
+            }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // create xml
@@ -354,8 +399,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
         Map<String, String> desktopImageIfMap = new HashMap();
         Map<String, Map<String, String>> sceneLevelMap = new HashMap();
         Map<String, String> mobileImageIfMap = new HashMap();
-        Map<String, String> mobileCubeUrlMap = new HashMap();
-
+        Map<String, String> titleMap = new HashMap();
         for (String sceneId : sceneIdList) {
 
             Pano720XmlDesktopImageDTO desktopImage = desktopImageMap.get(sceneId);
@@ -366,13 +410,12 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
             List<String> levelHightList = desktopImage.getLevelHightList();
             List<String> levelCubeUrlList = desktopImage.getLevelCubeUrlList();
 
-
+            titleMap.put(sceneId,sceneTitleMap.get(sceneId));
             typeMap.put(sceneId, desktopImage.getType());
             multiresMap.put(sceneId, desktopImage.getMultires());
             tileSizeMap.put(sceneId, desktopImage.getTileSize());
             desktopImageIfMap.put(sceneId, desktopImage.getImageIf());
             mobileImageIfMap.put(sceneId, mobileImage.getImageIf());
-            mobileCubeUrlMap.put(sceneId, mobileImage.getLevelCubeUrl());
             sceneLevelMap.put(sceneId, levelMap);
 
             for (int i = 0, len = levelWidthList.size(); i < len; i++) {
@@ -382,13 +425,13 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
 
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("sceneIdList", sceneIdList);
+        velocityContext.put("titleMap",titleMap);
         velocityContext.put("typeMap", typeMap);
         velocityContext.put("multiresMap", multiresMap);
         velocityContext.put("tileSizeMap", tileSizeMap);
         velocityContext.put("desktopImageIfMap", desktopImageIfMap);
         velocityContext.put("sceneLevelMap", sceneLevelMap);
         velocityContext.put("mobileImageIfMap", mobileImageIfMap);
-        velocityContext.put("mobileCubeUrlMap", mobileCubeUrlMap);
 
 
         Properties p = new Properties();
@@ -404,7 +447,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
         BufferedReader bufferedReader = null;
         BufferedWriter bufferedWriter = null;
 
-        File distFile = new File("/home/wbt/down/pano.xml");
+        File distFile = new File(rootPath+"pano.xml");
         if (!distFile.getParentFile().exists()) distFile.getParentFile().mkdirs();
         bufferedReader = new BufferedReader(new StringReader(stringWriter.getBuffer().toString()));
         bufferedWriter = new BufferedWriter(new FileWriter(distFile));
