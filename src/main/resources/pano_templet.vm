@@ -1,17 +1,17 @@
 <krpano version="1.19">
     <include url="%SWFPATH%/xml/config.xml"/>
     #foreach(${sceneId} in ${sceneIdList})
-        <scene name="scene_${sceneId}" pano_id="${sceneId}" title="${titleMap.get(${sceneId})}" thumburl="${sceneId}/thumb.jpg">
-            <preview url="${sceneId}/preview.jpg"/>
+        <scene name="scene_${sceneId}" pano_id="${sceneId}" title="${titleMap.get(${sceneId})}" thumburl="${panoImageHeadUrl}${sceneId}/thumb.jpg">
+            <preview url="${panoImageHeadUrl}${sceneId}/preview.jpg"/>
             <image type="${typeMap.get(${sceneId})}" multires="${multiresMap.get(${sceneId})}" tilesize="${tileSizeMap.get(${sceneId})}" if="${desktopImageIfMap.get(${sceneId})}">
                 #foreach(${level} in ${sceneLevelMap.get(${sceneId}).entrySet()})
                     <level tiledimagewidth="${level.key}" tiledimageheight="${level.key}">
-                        <cube url="${sceneId}/${level.value}"/>
+                        <cube url="${panoImageHeadUrl}${sceneId}/${level.value}"/>
                     </level>
                 #end
             </image>
             <image if="${mobileImageIfMap.get(${sceneId})}">
-                <cube url="${sceneId}/mobile_%s.jpg"/>
+                <cube url="${panoImageHeadUrl}${sceneId}/mobile_%s.jpg"/>
             </image>
         </scene>
     #end

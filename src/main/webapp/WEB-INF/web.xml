@@ -68,6 +68,7 @@
         <url-pattern>*.swf</url-pattern>
     </servlet-mapping>
 
+
     <!-- 过滤器,过滤不合法请求 -->
     <filter>
         <filter-name>mainFliter</filter-name>
@@ -77,6 +78,7 @@
         <filter-name>mainFliter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
 
 
     <filter>

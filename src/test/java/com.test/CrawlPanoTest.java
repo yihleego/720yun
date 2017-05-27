@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Created by YihLeego on 17-5-11.
@@ -39,6 +40,21 @@ public class CrawlPanoTest {
 
     @Autowired
     Pano720DAO pano720DAO;
+
+    @Test
+    public void getPath() {
+        Properties prop =  new Properties();
+        InputStream in = getClass().getResourceAsStream("/resources/path.properties");
+        try {
+            prop.load(in);
+
+
+
+            System.out.println(prop.getProperty("domain").trim());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void crawl720yun() {

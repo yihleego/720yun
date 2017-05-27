@@ -28,6 +28,7 @@ public class MainFliter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("utf-8");
         HttpServletRequest req = (HttpServletRequest) request;
@@ -37,6 +38,13 @@ public class MainFliter implements Filter {
         String url = req.getRequestURI();
         String type = req.getHeader("X-Requested-With");
         String IP = getIpAddr(req);
+
+        /*res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        res.setHeader("Access-Control-Max-Age", "3600");
+        res.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization");
+        res.setHeader("Access-Control-Allow-Credentials","true");*/
+
 
         StringBuilder requestInfo=new StringBuilder();
         requestInfo.append("ip:[");
