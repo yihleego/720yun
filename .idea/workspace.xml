@@ -7,11 +7,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d182b321-175f-4355-879d-10c0c47801a8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/yihleego/pano/service/impl/PanoCrawlerServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/yihleego/pano/service/impl/PanoCrawlerServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/path.properties" afterPath="$PROJECT_DIR$/src/main/resources/path.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" />
-    </list>
+    <list default="true" id="d182b321-175f-4355-879d-10c0c47801a8" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -856,7 +852,7 @@
       <updated>1495777098004</updated>
       <workItem from="1495777100711" duration="952000" />
       <workItem from="1495850534714" duration="18285000" />
-      <workItem from="1495877219910" duration="1460000" />
+      <workItem from="1495877219910" duration="1588000" />
     </task>
     <servers />
   </component>
@@ -893,7 +889,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25939000" />
+    <option name="totallyTimeSpent" value="26067000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1040" extended-state="1" />
