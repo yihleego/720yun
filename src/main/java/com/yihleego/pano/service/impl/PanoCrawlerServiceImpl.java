@@ -227,6 +227,7 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
         }
         String domain = prop.getProperty("domain").trim();
         String panoImageProject = prop.getProperty("pano_image_project").trim();
+        String panoImagePath = prop.getProperty("pano_image_path").trim();
         String webContainerPath = prop.getProperty("web_container_path").trim();
         String webapp = prop.getProperty("webapp").trim();
         String panoId = pano720.getPanoId();
@@ -234,14 +235,14 @@ public class PanoCrawlerServiceImpl implements PanoCrawlerService {
 
         // 设置各种路径参数配置
 
-        // /home/yihleego/path/apache-tomcat/webapp/pano/
-        String rootPath = (webContainerPath + webapp + panoImageProject).replace("/", File.separator) + File.separator;
+        // /home/yihleego/path/apache-tomcat/webapp/image/pano/
+        String rootPath = (webContainerPath + webapp + panoImageProject+panoImagePath).replace("/", File.separator) + File.separator;
 
-        // /home/yihleego/path/apache-tomcat/webapp/pano/fe628jaOwcv/
+        // /home/yihleego/path/apache-tomcat/webapp/image/pano/fe628jaOwcv/
         String panoPath = rootPath+ panoId + File.separator;
 
-        // http://yihleego.com/pano/fe628jaOwcv/
-        String panoImageHeadUrl = domain + panoImageProject.replace("/", File.separator) + File.separator + panoId + File.separator;
+        // http://yihleego.com/image/pano/fe628jaOwcv/
+        String panoImageHeadUrl = domain + (panoImageProject+panoImagePath).replace("/", File.separator) + File.separator + panoId + File.separator;
 
         // 以panoId创建文件目录
         File panoDirectory = new File(panoPath);

@@ -1,0 +1,48 @@
+<krpano version="1.19">
+    <include url="%SWFPATH%/xml/config.xml"/>
+    <scene name="scene_284278" pano_id="284278" title="Dragon Iss A"
+           thumburl="http://yihleego.com:8888/image/pano/fe628jaOwcv/284278/thumb.jpg">
+        <preview url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284278/preview.jpg"/>
+        <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
+            <level tiledimagewidth="1274" tiledimageheight="1274">
+                <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284278/%s/l2/%v/l2_%s_%v_%h.jpg"/>
+            </level>
+            <level tiledimagewidth="638" tiledimageheight="638">
+                <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284278/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+            </level>
+        </image>
+        <image if="webvr.isenabled OR !device.desktop">
+            <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284278/mobile_%s.jpg"/>
+        </image>
+    </scene>
+    <scene name="scene_284279" pano_id="284279" title="Dragon Iss B"
+           thumburl="http://yihleego.com:8888/image/pano/fe628jaOwcv/284279/thumb.jpg">
+        <preview url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284279/preview.jpg"/>
+        <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
+            <level tiledimagewidth="1274" tiledimageheight="1274">
+                <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284279/%s/l2/%v/l2_%s_%v_%h.jpg"/>
+            </level>
+            <level tiledimagewidth="638" tiledimageheight="638">
+                <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284279/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+            </level>
+        </image>
+        <image if="webvr.isenabled OR !device.desktop">
+            <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284279/mobile_%s.jpg"/>
+        </image>
+    </scene>
+    <scene name="scene_284282" pano_id="284282" title="Dragon Iss C"
+           thumburl="http://yihleego.com:8888/image/pano/fe628jaOwcv/284282/thumb.jpg">
+        <preview url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284282/preview.jpg"/>
+        <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled AND device.desktop">
+            <level tiledimagewidth="1274" tiledimageheight="1274">
+                <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284282/%s/l2/%v/l2_%s_%v_%h.jpg"/>
+            </level>
+            <level tiledimagewidth="638" tiledimageheight="638">
+                <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284282/%s/l1/%v/l1_%s_%v_%h.jpg"/>
+            </level>
+        </image>
+        <image if="webvr.isenabled OR !device.desktop">
+            <cube url="http://yihleego.com:8888/image/pano/fe628jaOwcv/284282/mobile_%s.jpg"/>
+        </image>
+    </scene>
+</krpano>

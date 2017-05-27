@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<krpano>
+  <include url="%SWFPATH%/xml/config.xml" />
+  <scene name="scene_26e59df9fc396000" title="a1" onstart="" havevrimage="true" thumburl="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-5f388f4792879000-7a1681fee4334000/panos/5f388f4792879000.tiles/thumb.jpg" lat="" lng="" heading="" album="场景选择"> 
+    <preview url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-5f388f4792879000-7a1681fee4334000/panos/5f388f4792879000.tiles/preview.jpg"/>  
+    <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled"> 
+      <level tiledimagewidth="256" tiledimageheight="256"> 
+        <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-5f388f4792879000-7a1681fee4334000/panos/5f388f4792879000.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/> 
+      </level> 
+    </image>  
+    <image if="webvr.isenabled"> 
+      <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-5f388f4792879000-7a1681fee4334000/panos/5f388f4792879000.tiles/vr/pano_%s.jpg"/> 
+    </image> 
+  </scene>
+  <scene name="scene_8d008ecb64396001" title="卧室二01" onstart="" havevrimage="true" thumburl="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-3f69367a25879001-7a1681fee4334000/panos/3f69367a25879001.tiles/thumb.jpg" lat="" lng="" heading=""> 
+    <preview url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-3f69367a25879001-7a1681fee4334000/panos/3f69367a25879001.tiles/preview.jpg"/>  
+    <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled"> 
+      <level tiledimagewidth="652" tiledimageheight="652"> 
+        <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-3f69367a25879001-7a1681fee4334000/panos/3f69367a25879001.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/> 
+      </level>  
+      <level tiledimagewidth="1304" tiledimageheight="1304"> 
+        <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-3f69367a25879001-7a1681fee4334000/panos/3f69367a25879001.tiles/%s/l2/%v/l2_%s_%v_%h.jpg"/> 
+      </level> 
+    </image>  
+    <image if="webvr.isenabled"> 
+      <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-3f69367a25879001-7a1681fee4334000/panos/3f69367a25879001.tiles/vr/pano_%s.jpg"/> 
+    </image> 
+  </scene>
+  <scene name="scene_e99b6d066a396002" title="a2" onstart="" havevrimage="true" thumburl="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-c3892e6fbd879002-7a1681fee4334000/panos/c3892e6fbd879002.tiles/thumb.jpg" lat="" lng="" heading="" album="group2"> 
+    <preview url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-c3892e6fbd879002-7a1681fee4334000/panos/c3892e6fbd879002.tiles/preview.jpg"/>  
+    <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled"> 
+      <level tiledimagewidth="326" tiledimageheight="326"> 
+        <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-c3892e6fbd879002-7a1681fee4334000/panos/c3892e6fbd879002.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/> 
+      </level> 
+    </image>  
+    <image if="webvr.isenabled"> 
+      <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-c3892e6fbd879002-7a1681fee4334000/panos/c3892e6fbd879002.tiles/vr/pano_%s.jpg"/> 
+    </image> 
+  </scene>
+  <scene name="scene_8415fb25a3396003" title="卧室一03" onstart="" havevrimage="true" thumburl="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-ad08578dbb879003-7a1681fee4334000/panos/ad08578dbb879003.tiles/thumb.jpg" lat="" lng="" heading=""> 
+    <preview url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-ad08578dbb879003-7a1681fee4334000/panos/ad08578dbb879003.tiles/preview.jpg"/>  
+    <image type="CUBE" multires="true" tilesize="512" if="!webvr.isenabled"> 
+      <level tiledimagewidth="652" tiledimageheight="652"> 
+        <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-ad08578dbb879003-7a1681fee4334000/panos/ad08578dbb879003.tiles/%s/l1/%v/l1_%s_%v_%h.jpg"/> 
+      </level>  
+      <level tiledimagewidth="1304" tiledimageheight="1304"> 
+        <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-ad08578dbb879003-7a1681fee4334000/panos/ad08578dbb879003.tiles/%s/l2/%v/l2_%s_%v_%h.jpg"/> 
+      </level> 
+    </image>  
+    <image if="webvr.isenabled"> 
+      <cube url="http://imagedev.youbim.cn/user/pano-images/7a1681fee4334000/20170526124434-ad08578dbb879003-7a1681fee4334000/panos/ad08578dbb879003.tiles/vr/pano_%s.jpg"/> 
+    </image> 
+  </scene>
+</krpano>
